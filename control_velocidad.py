@@ -81,7 +81,8 @@ def registrar_multa(placa, velocidad, estado, tipo, valor, retiro_permiso):
 # Toma todas las multas registradas en la sesión
 # y genera un archivo PDF con el reporte
 # ══════════════════════════════════════════════
-def generar_pdf():
+# Ahora recibe el nombre del usuario que generó el reporte
+def generar_pdf(usuario):
     if not PDF_DISPONIBLE:
         messagebox.showerror("Error", "Instala fpdf2 con: pip install fpdf2")
         return
@@ -99,6 +100,8 @@ def generar_pdf():
     pdf.cell(0, 10, "REPORTE DE INFRACCIONES - TRÁNSITO BOGOTÁ D.C.", ln=True, align="C")
     pdf.set_font("Arial", "", 10)
     pdf.cell(0, 8, f"Generado el: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}", ln=True, align="C")
+    # Muestra el nombre del operador que generó el reporte
+    pdf.cell(0, 8, f"Operador: {usuario}", ln=True, align="C")
     pdf.ln(5)
 
     # Encabezados de la tabla
@@ -256,8 +259,9 @@ class VentanaPrincipal:
         marco_botones = tk.Frame(self.root)
         marco_botones.pack(pady=10)
 
+# Pasamos el usuario actual a la función para que quede registrado en el PDF
         tk.Button(marco_botones, text="Generar PDF", font=("Arial", 10),
-                  command=generar_pdf).pack(side="left", padx=10)
+          command=lambda: generar_pdf(self.usuario)).pack(side="left", padx=10)
         tk.Button(marco_botones, text="Limpiar campos", font=("Arial", 10),
                   command=self.limpiar_campos).pack(side="left", padx=10)
         tk.Button(marco_botones, text="Cerrar sesión", font=("Arial", 10),
