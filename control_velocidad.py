@@ -7,7 +7,8 @@ import os
 # ─────────────────────────────────────────────
 # INTENTAMOS importar fpdf2 para generar PDFs
 # Si no está instalado, lo indicamos al usuario
-# pip install fpdf2 para instalar la libreria
+# pip install fpdf2
+# para instalar la libreria
 # ─────────────────────────────────────────────
 try:
     from fpdf import FPDF
